@@ -1,0 +1,152 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="row">
+    <div class="col-lg-6">
+
+    <div class=" my-3 d-flex ">
+        <h3 ><%= listing.title %></h3>
+        
+    </div>
+    <div class=" mb-3">
+        <div class="card show-card listing-card">
+            <img src="<%= listing.image %>" class="card-img-top show-img" alt="listing image">
+            <div class="card-body">
+                <p class="card-text">
+                    Owned by- 
+                    <i><%= listing.owner.username %></i>
+                    <br>
+                </p>
+                <p class="card-text">
+                    <%= listing.description %> <br>
+                </p>
+                <p class="card-text">
+                    &#8377; <%= listing.price.toLocaleString("en-IN") %> <br>
+                </p>
+                <p class="card-text">
+                    <%= listing.location %> <br>
+                </p>
+                <p class="card-text">
+                    <%= listing.country %> <br>
+                </p>
+
+            </div>
+        </div>
+
+        <br>
+<!-- if currOwner exists in locals and it is equal to the owner of the listing -->
+        <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+        <div class="btns">
+            <form method="GET" action="/listings/<%= listing._id %>/edit">
+                <button class="btn btn-dark mb-2">Edit</button>
+            </form>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                <button class="btn btn-dark edit-btn">Delete</button>
+            </form>
+        </div>
+        <% } %>
+       
+    </div>  
+
+
+    <div class=" mb-3">
+        <% if(currUser){ %>
+        <hr>
+        <h4>Leave a Review</h4>
+        <form method="POST" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
+            <!-- <div class="mb-3 mt-3">
+                <label for="title" class="form-label">UserId</label>
+                <input type="text" id="title" name="review[title]" class="form-control">
+            </div> -->
+            <div class="mb-3 mt-3">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="comment" class="form-label">Comments</label>
+                <textarea name="review[comment] " id="comment" cols="30" rows="5" class="form-control"  required></textarea>
+                <div class="invalid-feedback">Please add some comments for review</div>
+            </div>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-outline-dark">Submit</button>
+            </div>
+           
+        </form>
+        <% } %>
+        <hr>
+
+        <p> <b>All Reviews</b></p>
+        <hr>
+        <div class="">
+            <% for(review of listing.reviews){ %>
+                <div class=" mb-3 ms-3">
+                    <div class="d-flex p-0">
+                        <h5 class="card-title"><%= review.author.username %></h5>
+                        <p class="ms-auto"><%= review.rating %> <i class="fa-solid fa-star" style="color: #FFD43B;"></i></p>
+                    </div>
+                    <div class="row">
+                        <p class="col-10"><%= review.comment %></p>
+                        <form class="col-2" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" >
+                            <button class="btn btn-sm btn-dark ">Delete</button>
+                        </form>
+                    </div>
+                    
+                    <hr>
+                </div>
+            <% } %>
+        </div>
+        <div class=" mb-3">
+            
+        </div>
+    </div>
+    <br><br>
+    </div>
+    <div class="col-lg-6 px-4 py-1">
+        <!-- not working yet -->
+        <% if (typeof selectedBlog === 'undefined') { %>
+            <div class="list-group">
+                <div class="d-flex m-3">
+                    <p class="my-auto"><b>All Blogs</b></p>
+                    <a href="/listings/<%= listing._id %>/blogs/new" class="btn ms-auto no-decoration">
+                        <i class="fa-regular fa-pen-to-square fa-lg"></i>
+                    </a>
+                </div>
+                
+                <% listing.blogs.forEach(blog => { %>
+                    <% console.log('Blog blogCreater:', blog.blogCreater); %>
+                   
+                    <a href="/listings/<%= listing._id %>/blogs/<%= blog._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong><%= blog.blogCreater %></strong>
+                            <p class="mb-1"><%= blog.description ? blog.description.substring(0, 150) : '' %>...</p>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+        <% } 
+         else { %>
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <div class="d-flex m-3">
+                        <a href="/listings/<%= listing._id %>" class="btn no-decoration ms-auto">
+                            <i class="fa-regular fa-circle-left fa-lg"></i>              
+                        </a>
+                        <a href="/listings/<%= listing._id %>/blogs/new" class="btn no-decoration">
+                            <i class="fa-regular fa-pen-to-square fa-lg"></i>
+                        </a>
+                    </div>
+                    <h2>Blog by <%= selectedBlog.blogCreater.username %></h2>
+                    <p><strong>Rating:</strong> <%= selectedBlog.rating %>/5</p>
+                    <p><strong>Description:</strong> <%= selectedBlog.description %></p>
+                    <p><strong>Amenities:</strong> <%= selectedBlog.amenities %></p>
+                    <p><strong>Convenience:</strong> <%= selectedBlog.convenience %></p>
+                    <p><strong>Check-In:</strong> <%= selectedBlog.checkIn %></p>
+                    <p><strong>Security:</strong> <%= selectedBlog.security %></p>
+                    <p><strong>Cancellation:</strong> <%= selectedBlog.cancellation %></p>
+                    <p><strong>Pets:</strong> <%= selectedBlog.pets %></p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    
+</div>    
+

@@ -1,0 +1,15 @@
+<!-- checking if success array exists, and if it does, does it have a length? -->
+<!-- If success array is empty, an empty flash message will not be kept displaying in the top of the pages -->
+<!-- <% if(success && success.length){ %> -->
+    <div class="alert alert-success alert-dissmissible fade show col-6 offset-3 d-flex justify-content-between" role="alert">
+        <%=success%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<!-- <% } %> -->
+
+<!-- <% if(error && error.length){ %> -->
+    <div class="alert alert-danger alert-dissmissible fade show col-6 offset-3 d-flex justify-content-between" role="alert">
+        <%=error%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<!-- <% } %> -->

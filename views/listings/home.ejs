@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="container mt-4">
+    <h1 class="ms-5">My Posts</h1>
+
+    <% if (listings.length === 0) { %>
+        <p>You have no listings yet. <a href="/listings/new">Create a new listing</a></p>
+    <% } else { %>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <% listings.forEach(listing => { %>
+                <div class="col">
+                    <div class="card show-card listing-card mt-5 mx-5">
+                        <img src="<%= listing.image %>" class="card-img-top show-img" alt="listing image">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= listing.title %></h5>
+                            <p class="card-text">&#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+                            <p class="card-text"><%= listing.location %>, <%= listing.country %></p>
+                            <p class="card-text">Owned by - <i><%= listing.owner.username %></i></p>
+                            <!-- <a href="/listings/<%= listing._id %>" class="btn btn-primary">View Details</a> -->
+                            
+                            <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+                                <div class="btns mt-3">
+                                    <form method="GET" action="/listings/<%= listing._id %>/edit" class="d-inline">
+                                        <button class="btn btn-dark mb-2">Edit</button>
+                                    </form>
+                                    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+                                        <button class="btn btn-dark edit-btn">Delete</button>
+                                    </form>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>

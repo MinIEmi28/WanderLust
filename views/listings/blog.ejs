@@ -1,0 +1,57 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 my-3">
+            <h1>Create a Blog</h1>
+            <form method="POST" action="/listings/<%= listing._id %>/blogs" novalidate class="needs-validation">
+                <div class="mb-3 mt-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="range" min="1" max="5" id="rating" name="blog[rating]" class="form-range" required>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="blog[description]" id="description" cols="30" rows="5" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Please add a description for the blog</div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 mt-3 col-md-6 ">
+                        <label for="cancellation" class="form-label">Cancellation</label>
+                         <!-- <input type="text" id="cancellation" name="blog[cancellation]" class="form-select" required>  -->
+                        <select name="blog[cancellation]" id="cancellation" class="form-select" required>
+                            <option value="yes" >Cancellation available</option>
+                            <option value="no" >Cancellation not available</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3 col-md-6">
+                        <label for="pets" class="form-label">Pets</label>
+                        <!-- <input type="text" id="pets" name="blog[pets]" class="form-control" required> -->
+                        <select name="blog[pets]" id="pets" class="form-select" required>
+                            <option value="yes">Allowed</option>
+                            <option value="no">Not allowed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="amenities" class="form-label">Amenities</label>
+                    <textarea type="text" id="amenities" name="blog[amenities]" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="convenience" class="form-label">Convenience</label>
+                    <textarea type="text" id="convenience" name="blog[convenience]" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="checkIn" class="form-label">Check-In</label>
+                    <textarea type="text" id="checkIn" name="blog[checkIn]" class="form-control" required></textarea>
+                </div>
+                
+                <div class="mb-3 mt-3">
+                    <label for="security" class="form-label">Security</label>
+                    <textarea type="text" id="security" name="blog[security]" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3 mt-3">
+                    <button class="btn btn-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
